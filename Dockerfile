@@ -1,8 +1,5 @@
-FROM python:3.10.10
-MAINTAINER cf2dns
-EXPOSE 80
-USER root
-
+FROM ubuntu:latest
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y install \
     python3 python3-dev python3-dev python3-pip python3-venv 
 
@@ -14,14 +11,9 @@ WORKDIR /app
 RUN pip3 install -U pip setuptools
 COPY requirements.txt ./requirements.txt
 RUN pip3 install -r requirements.txt
+COPY start.sh start.sh
+COPY app.py app.py
+COPY TA.py TA.py
 
-
-
-RUN mkdir ./dns
-COPY ./dns/__init__.py ./dns/
-COPY ./dns/aliyun.py ./dns/
-COPY ./dns/huawei.py ./dns/
-COPY ./dns/qCloud.py ./dns/
-COPY cf2dns.py ./
-COPY log.py ./
-COPY entrypoint.sh ./
+RUN chmod +x /app/start.sh
+ENTRYPOINT ["./start.sh"]
