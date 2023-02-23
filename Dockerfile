@@ -12,8 +12,8 @@ RUN pip3 install -U pip setuptools
 COPY requirements.txt ./requirements.txt
 RUN pip3 install -r requirements.txt
 COPY start.sh start.sh
-COPY app.py app.py
-COPY TA.py TA.py
+COPY . .
 
+EXPOSE 80
 RUN chmod +x /app/start.sh
 ENTRYPOINT ["./start.sh"]
